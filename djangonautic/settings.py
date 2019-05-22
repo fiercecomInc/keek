@@ -25,7 +25,7 @@ SECRET_KEY = 'ttnsqx@rod3n6tnevc57eaekwy@yydnqqxv8hd14!1u)+s4pvd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','incorporatedfierce.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','tanduay.pythonanywhere.com']
 
 # Application definition
 
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'djangonautic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [(os.path.join(BASE_DIR, 'templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
