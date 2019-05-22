@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+	<head>
+		<title>fiercecom Incorporated</title>
+		<meta charset="utf-8">
+	   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	   	<link rel="stylesheet" href="/static/css/bootstrap.css">
+			<link rel="icon" href="{% static 'fierce.png' %}" type="image/icon type">
+	   	<style type="text/css">
+
+        .jumbotron {
+				background: white;
+				background-repeat: no-repeat;
+				text-align: center;
+				color:#5e5e5e;
+
+			}
+			.score{
+				width: 350px;
+				font-size: 30px;
+			}
+			.final-message
+			{
+				margin-left: 220px;
+				margin-bottom:0px;
+				float:center;
+				text-align:center;
+				font-size: 30px;
+				width: 350px;
+			}
+			#textFirst
+			{
+				text-align:center;
+				font-size: 50px;
+				width: 350px;
+			}
+
+			.jumbotron h1,p{
+				margin-bottom: 10px;
+			}
+			.content{
+				height: 500px;
+				width: 800px;
+        color:
+			}
+			.num
+			{
+				font-size: 20px;
+				margin-right: 20px;
+				margin-top: 15px;
+
+				float: left;
+			}
+			audio{
+				margin-bottom: 20px;
+
+			}
+			.lead{
+				padding:10px 10px 10px 10px;
+				width: 130px;
+			}
+			.count{
+				margin-top: 5px;
+				margin-left:520px;
+				font-size: 60px;
+        color: #ff0000;
+			}
+			.divs{
+				margin-top: 10px;
+				margin-left: 50px;
+
+			}
+			label{
+				padding: 10px;
+			}
+
+			#next{
+				margin-top: 20px;
+				margin-left: 300px;
+			}
+			footer{
+				background: #f3f3f7
+				margin-top:30px;
+				text-align: center;
+			}
+
+	   	</style>
+	</head>
+	<body style="background-color:white" >
+    <div class="jumbotron" style="  height: 250px; width: 100%; top: 10px;">
+      <div class="container">
+         <img class="center"src="{% static 'j.png' %}"  style="width:50%;">
+       </div>
+     </div>
+		   <div class="container content bg-dark text-white" style="border-radius: 80px 80px 80px 80px;
+-moz-border-radius: 80px 80px 80px 80px;
+-webkit-border-radius: 80px 80px 80px 80px;
+border: 22px double #a7e698;">
+		   	  <div class="row justify-content-center">
+    				<div class="col-8">
+
+    					<div class="count"><span id="count">00</span></div>
+				 		<div class="divs" id="audio-container">
+
+
+
+					 	</div>
+
+			 	 	</div>
+			   </div>
+
+				<button class="btn btn-success btn-md lead" id="next">next</button>
+		 	</div>
+
+		    <footer class="footer mt-auto py-3">
+			  <div class="">
+			    <span class="text-muted">&#169; Fiercecom Incorporated 2019</span>
+			  </div>
+			</footer>
+
+
+			<div class="article">
+				<li>
+					<a class="home" href="{% url 'articles:list'%}"
+					style="position: absolute;
+					top: 75px;
+					right: 700px;
+					border: 2px solid green;
+					padding: 10px;
+					border-radius: 10px;
+					color: black;
+					font-size: 15px"
+					>Home</a>
+				</li>
+			</div>
+
+
+	</body>
+	<script src="/static/js/jquery-3.4.1.min.js"></script>
+		<script src="/static/js/bootstrap.js"></script>
+		<script type="text/javascript">
+
+
+
+			function getData()
+			{
+				var countCorrect = 0;
+				for(var x=0;x<questions.length;x++)
+				{
+					var radios = document.getElementsByName(questions[x].choicesNumber);
+					for (var i = 0, length = radios.length; i < length; i++)
+					{
+					 if (radios[i].checked)
+					 {
+						if(radios[i].value == questions[x].correctAnswers)
+						{
+								countCorrect ++;
+						}
+						  break;
+					  }
+					}
+				}
+				var result = questions.length - countCorrect;
+
+				$('.divs').empty();
+				$('.divs').append("<p class='score'>Your Score: "+countCorrect+"</p><p class='score'> Incorrect Answers: "+result +"</p>");
+				$('p').remove(":contains('Your Done! Please Submit Your Answers')")
+				  $('#next').text('Take Again');
+				  $('#next').click(function(){
+				  	location.reload(true);
+				  });
+			}
+
+
+
+
+
+
+			var counter = 1;
+			var interval = 0;
+			function timer(){
+			var count = 20;
+			 clearInterval(interval);
+			 interval = setInterval(function(){
+				  $('#count').text(""+count+"");
+
+				  if (count == 0){
+
+				   $('#count').text("00");
+				        clearInterval(interval);
+				        if ($(".divs div:visible").next().length != 0)
+				        {
+
+				        	timer();
+				        	if(counter > 1)
+				        	{
+				        		$('#audio-player'+(counter-1)).get(0).pause();
+				        		$('#audio-player'+counter).get(0).play();
+				           		 $(".divs div:visible").next().show().prev().hide();
+				           		 counter++;
+				        	}
+				        	else
+				        	{
+				        		$('#audio-player'+counter).get(0).play();
+				           		 $(".divs div:visible").next().show().prev().hide();
+				           		 counter++;
+
+				        	}
+				        }
+				        else {
+
+
+			        	 $('#count').text("00");
+			        	 clearInterval(interval);
+
+			        	$(".divs div:visible").hide();
+			      		$('p').remove(":contains('Your Done! Please Submit Your Answers')")
+			            $("#next").before("<p class='final-message'>Your Done! Please Submit Your Answers</p>");
+
+			            $('#next').css({'margin-top':'100px','margin-left':'310px'});
+			            $('#next').text('Submit');
+			            $('#next').click(function(){
+			            	getData();
+			            });
+
+
+
+				       	}
+			  		}
+			    count--;
+
+			}, 500);
+	 		}
+
+      var questions = [
+  			{
+  				nameAudio:'askdoctor',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice1'
+  			},
+
+  			{
+  				nameAudio:"can't do it today",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'YES',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice2'
+  			},
+  			{
+  				nameAudio:'cantspendmoney',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice3'
+  			},
+  			{
+  				nameAudio:'cbd1234',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice4'
+  			},
+  			{
+  				nameAudio:'companyname',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice5'
+  			},
+  			{
+  				nameAudio:'cure',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice6'
+  			},
+  			{
+  				nameAudio:"can't do it today",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice7'
+  			},
+  			{
+  				nameAudio:"don't know anything about CBD",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice8'
+  			},
+  			{
+  				nameAudio:'donthavecc',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice9'
+  			},
+  			{
+  				nameAudio:'freesample',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice10'
+  			},
+  			{
+  				nameAudio:'how much is it',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice11'
+  			},
+
+  			{
+  				nameAudio:"howtouse",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice12'
+  			},
+  			{
+  				nameAudio:'howwilibilled',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice13'
+  			},
+  			{
+  				nameAudio:"i ddon't know",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice14'
+  			},
+  			{
+  				nameAudio:"i don't think so",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice15'
+  			},
+  			{
+  				nameAudio:'iguessso',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice16'
+  			},
+  			{
+  				nameAudio:"justlosthisjob",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice17'
+  			},
+  			{
+  				nameAudio:"NIatthistime",
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice18'
+  			},
+  			{
+  				nameAudio:'no money',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice19'
+  			},
+  			{
+  				nameAudio:'No',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice20'
+  			},
+  			{
+  				nameAudio:'noextra15tosendout',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice21'
+  			},
+  			{
+  				nameAudio:'nomaam',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice22'
+  			},
+
+  			{
+  				nameAudio:'notgiving',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice23'
+  			},
+  			{
+  				nameAudio:'notready',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice24'
+  			},
+  			{
+  				nameAudio:'notthistime',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice25'
+  			},
+  			{
+  				nameAudio:'ok',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice26'
+  			},
+  			{
+  				nameAudio:'okdokie',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice27'
+  			},
+  			{
+  				nameAudio:'otherpills',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice28'
+  			},
+  			{
+  				nameAudio:'price with it',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice29'
+  			},
+  			{
+  				nameAudio:'price',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice30'
+  			},
+  			{
+  				nameAudio:'scams',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice31'
+  			},
+  			{
+  				nameAudio:'scamus',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice32'
+  			},
+  			{
+  				nameAudio:'sosendbackhemp',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'NO',
+  				choicesNumber:'choice33'
+  			},
+  			{
+  				nameAudio:'talkdoc',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice34'
+  			},
+  			{
+  				nameAudio:'talktodoctor',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice35'
+  			},
+  			{
+  				nameAudio:'thankunothanku',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice36'
+  			},
+  			{
+  				nameAudio:'tts',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice37'
+  			},
+  			{
+  				nameAudio:'wecandothat',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice38'
+  			},
+  			{
+  				nameAudio:'what is cb what-6779267535',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice39'
+  			},
+  			{
+  				nameAudio:'wholesale',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice40'
+  			},
+  			{
+  				nameAudio:'wholesale2',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice41'
+  			},
+  			{
+  				nameAudio:'wiling to try',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice42'
+  			},
+  			{
+  				nameAudio:'willing to try',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice43'
+  			},
+  			{
+  				nameAudio:'willing to try',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice44'
+  			},
+  			{
+  				nameAudio:'yeah',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice45'
+  			},
+  			{
+  				nameAudio:'yes send it to me if not im not in pain right now',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice46'
+  			},
+  			{
+  				nameAudio:'yes',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice47'
+  			},
+  			{
+  				nameAudio:'yes2',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice48'
+  			},
+  			{
+  				nameAudio:'25-662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice49'
+  			},
+  			{
+  				nameAudio:'25-662964471',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice50'
+  			},
+  			{
+  				nameAudio:'35-669314999',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice51'
+  			},
+  			{
+  				nameAudio:'ahhhh-669314999',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice52'
+  			},
+  			{
+  				nameAudio:'already donated-',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice53'
+  			},
+  			{
+  				nameAudio:'already donated2-662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice54'
+  			},
+  			{
+  				nameAudio:'already donated-662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice55'
+  			},
+  			{
+  				nameAudio:'already have letter- 669314999',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice56'
+  			},
+  			{
+  				nameAudio:'can u send me ba bill 669314999',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice57'
+  			},
+  			{
+  				nameAudio:'due delay-662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice58'
+  			},
+  			{
+  				nameAudio:'financial no',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice59'
+  			},
+  			{
+  				nameAudio:'gave last time - 666869839',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice60'
+  			},
+  			{
+  				nameAudio:'just gave 20 - 669314991',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice61'
+  			},
+  			{
+  				nameAudio:'no i always send a check - 662264190',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice62'
+  			},
+  			{
+  				nameAudio:'phonce concern-662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice63'
+  			},
+  			{
+  				nameAudio:'send me a bill 66931499',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice64'
+  			},
+  			{
+  				nameAudio:'send me a bill',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice65'
+  			},
+  			{
+  				nameAudio:'YES - 662954084',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice66'
+  			},
+  			{
+  				nameAudio:'yes 35-666869839',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice67'
+  			},
+  			{
+  				nameAudio:'yes i would - 668524845',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice68'
+  			},
+  			{
+  				nameAudio:'yes-669314991',
+  				choiceA:'YES',
+  				choiceB:'NO',
+  				choiceC:'MAYBE',
+  				correctAnswers:'YES',
+  				choicesNumber:'choice69'
+  			},
+      ]
+		var audioContainer = document.getElementById('audio-container');//get the id of the audio-container div
+
+		var divElements = document.createElement('div');
+		audioContainer.appendChild(divElements);
+
+		let textCOntent = document.createElement('p');
+		textCOntent.setAttribute('class', 'lead');
+		textCOntent.setAttribute('id', 'textFirst');
+   		textCOntent.textContent ="Click to Begin the Exam!"
+		divElements.appendChild(textCOntent);
+
+		for (i = 0; i < questions.length; i++) {
+
+		var divElement = document.createElement('div');
+		audioContainer.appendChild(divElement);
+
+		let number = document.createElement('p');
+		number.setAttribute("class","num");
+		number.textContent=(i+1)+".) ";
+		divElement.appendChild(number);
+
+		//create element audio
+		var sound      = document.createElement('audio');
+		sound.id       = 'audio-player'+(i+1)+'';
+		sound.controls = 'controls';
+		sound.src      = '/static/Audio/'+questions[i].nameAudio+'.mp3';
+		sound.type     = 'audio/mpeg';
+		divElement.appendChild(sound);
+
+		//create element paragraph
+		let contentA = document.createElement('p');
+		divElement.appendChild(contentA);
+
+		//create element input
+		var choiceSelectionA = document.createElement('input');
+   		choiceSelectionA.setAttribute('type', 'radio');
+   		choiceSelectionA.setAttribute('name', questions[i].choicesNumber);
+   		var values = questions[i].choiceA;
+   		choiceSelectionA.setAttribute('value', values);
+   		contentA.appendChild(choiceSelectionA);
+
+   		//create element label
+   		let newElementLabel = document.createElement('label');
+   		newElementLabel.textContent = values;
+   		contentA.appendChild(newElementLabel);
+
+   		//create element paragraph
+   		let contentB = document.createElement('p');
+		  divElement.appendChild(contentB);
+
+		//create element input
+		var choiceSelectionB = document.createElement('input');
+   		choiceSelectionB.setAttribute('type', 'radio');
+   		choiceSelectionB.setAttribute('name', questions[i].choicesNumber);
+   		var values = questions[i].choiceB;
+   		choiceSelectionB.setAttribute('value', values);
+   		contentB.appendChild(choiceSelectionB);
+
+   		//create element label
+   		let newElementLabelB = document.createElement('label');
+   		newElementLabelB.textContent = values;
+   		contentB.appendChild(newElementLabelB);
+
+   		//create element paragraph
+   		let contentC = document.createElement('p');
+			divElement.appendChild(contentC);
+
+		//create element input
+		var choiceSelectionC = document.createElement('input');
+   		choiceSelectionC.setAttribute('type', 'radio');
+   		choiceSelectionC.setAttribute('name', questions[i].choicesNumber);
+   		var values = questions[i].choiceC;
+   		choiceSelectionC.setAttribute('value', values);
+   		contentC.appendChild(choiceSelectionC);
+
+   		//create element label
+   		let newElementLabelC = document.createElement('label');
+   		newElementLabelC.textContent = values;
+   		contentC.appendChild(newElementLabelC);
+
+   	}
+   	/*
+   		var divElementss = document.createElement('div');
+		audioContainer.appendChild(divElementss);
+   		let textCOntents = document.createElement('p');
+		textCOntents.setAttribute('class', 'lead');
+		//textCOntents.setAttribute('id', 'textFirst');
+   		textCOntents.textContent ="Your Exam is Done!"
+		divElementss.appendChild(textCOntents);
+
+	*/
+
+
+	 	$(document).ready(function(){
+		    $(".divs div").each(function(e) {
+		        if (e != 0)
+		            $(this).hide();
+		    });
+
+
+		    $('#next').text("Begin");
+
+		    $("#next").click(function(){
+
+		    	//var tenSeconds = 10;
+		    	//display = document.getElementById('count');
+		    	//	clearInterval(existingIntervalId);
+		    	//	startTimer(tenSeconds,display);
+			        if ($(".divs div:visible").next().length != 0)
+			        {
+			        	timer();
+			        	if(counter > 1)
+			        	{
+			        		$('#audio-player'+(counter-1)).get(0).pause();
+			        		$('#audio-player'+counter).get(0).play();
+			           		 $(".divs div:visible").next().show().prev().hide();
+			           		 counter++;
+			        	}
+			        	else
+			        	{
+			        		 $('#next').text("next");
+			        		$('#audio-player'+counter).get(0).play();
+			           		 $(".divs div:visible").next().show().prev().hide();
+			           		 counter++;
+
+			        	}
+
+
+
+			        }
+			        else {
+
+			        	 $('#count').text("00");
+			        	 clearInterval(interval);
+
+			        	$(".divs div:visible").hide();
+			      		$('p').remove(":contains('Your Done! Please Submit Your Answers')")
+			            $("#next").before("<p class='final-message'>Your Done! Please Submit Your Answers</p>");
+
+			            $('#next').css({'margin-top':'100px','margin-left':'310px'});
+			            $('#next').text('Submit');
+				           $('#next').click(function(){
+				            	getData();
+				            });
+
+
+			       	}
+
+		        return false;
+		    });
+
+				//$("script[src='bootstraps.js']").before('<input type="button"/>')
+
+
+		});
+	     </script>
+
+
+
+</html>

@@ -1,0 +1,86 @@
+amqp==1.4.9
+anyjson==0.3.3
+arrow==0.13.1
+awsebcli==3.15.1
+billiard==3.3.0.23
+botocore==1.12.151
+celery==3.1.26.post2
+cement==2.8.2
+certifi==2019.3.9
+cffi==1.12.2
+chardet==3.0.4
+closure==20180204
+colorama==0.3.9
+<<<<<<< HEAD
+converters==0.0.1
+=======
+>>>>>>> 88c2f12eeb1c61ea67b06ce6ceba9c855fe93869
+dj-database-url==0.4.1
+Django==2.2.1
+django-audiofield==0.10.0
+django-audiotracks==0.2.4
+django-celery==3.2.2
+<<<<<<< HEAD
+=======
+django-cors-headers==2.5.2
+>>>>>>> 88c2f12eeb1c61ea67b06ce6ceba9c855fe93869
+django-crispy-forms==1.7.2
+django-debug-toolbar==1.11
+django-extensions==2.1.6
+django-model-utils==2.0.3
+django-multiselectfield==0.1.8
+django-nose==1.4.6
+django-redis==4.10.0
+django-thumbs==0.4
+django-urls==1.0.6
+django-uuidfield==0.5.0
+djangorestframework==3.9.3
+docopt==0.6.2
+docutils==0.14
+future==0.16.0
+googlemaps==3.0.2
+idna==2.7
+inflection==0.3.1
+Inflector==2.0.12
+jmespath==0.9.4
+jsonfield==2.0.2
+kafka-python==1.4.6
+kombu==3.0.37
+mutagenx==1.22
+nose==1.3.7
+pathspec==0.5.9
+Pillow==5.4.1
+playsound==1.2.2
+precursion==1.0.0
+pycparser==2.19
+<<<<<<< HEAD
+pypiwin32==223
+=======
+>>>>>>> 88c2f12eeb1c61ea67b06ce6ceba9c855fe93869
+python-dateutil==2.8.0
+python-resources==0.3
+pythonanywhere==0.7.4
+pytz==2018.9
+<<<<<<< HEAD
+pywin32==224
+=======
+>>>>>>> 88c2f12eeb1c61ea67b06ce6ceba9c855fe93869
+PyYAML==3.13
+querystring-parser==1.2.3
+recursion-2019==1.0.0
+redis==3.2.1
+<<<<<<< HEAD
+requests==2.20.12.1
+=======
+requests==2.20.1
+>>>>>>> 88c2f12eeb1c61ea67b06ce6ceba9c855fe93869
+semantic-version==2.5.0
+six==1.11.0
+sounddevice==0.3.13
+sqlparse==0.3.0
+termcolor==1.1.0
+urllib3==1.24.2
+vine==1.3.0
+virtualenv==16.4.1
+wcwidth==0.1.7
+whitenoise==3.2

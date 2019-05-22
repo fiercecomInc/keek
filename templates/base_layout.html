@@ -1,0 +1,66 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fiercecom Incorporated</title>
+    <link rel="icon" href="{% static 'fierce.png' %}" type="image/icon type">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
+
+  <body>
+    <div class="wrapper" >
+      <h1>
+          <img src="{% static 'j.png' %}" class="center"  style="width:100%;">
+          <nav>
+            <ul>
+              {% if user.is_authenticated %}
+                 <li>
+                   <form class="logout-link" action="{% url 'accounts:logout' %}" method="post" >
+                     {% csrf_token %}
+                     <button type="submit" class="logout"
+                       style="position: absolute;
+                       top: 50px;
+                       right: 500px;"
+                       >Logout</button>
+                   </form>
+                 </li>
+
+              {% else %}
+                <li>
+                  <a class="home" href="{% url 'articles:list'%}"
+                  style="position: absolute;
+                  top: 50px;
+                  right: 650px;
+                  border: 2px solid green;
+                  padding: 10px;
+                  border-radius: 10px;
+                  color: black;
+                  font-size: 15px"
+                  >Home</a>
+                </li>
+                  <li>
+                    <a class="login" href="{% url 'accounts:login'%}"
+                    style="position: absolute;
+                    top: 50px;
+                    right: 580px;"
+                    >Login</a>
+                  </li>
+                  <li>
+                    <a class="signup" href="{% url 'accounts:signup'%}"
+                    style="position: absolute;
+                    top: 50px;
+                    right: 500px;"
+                    >Signup</a>
+                  </li>
+              {% endif%}
+            </ul>
+          </nav>
+      </h1>
+      {% block content %}
+
+      {% endblock %}
+
+    </div>
+  </body>
+</html>
