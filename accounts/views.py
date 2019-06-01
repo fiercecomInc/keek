@@ -17,7 +17,7 @@ def signup_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form =data=request.POST
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             #log in the user
             user = form.get_user()
