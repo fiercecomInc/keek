@@ -13,22 +13,8 @@
       <h1>
           <img src="{% static 'j.png' %}" class="center"  style="width:100%;">
           <nav>
-            <ul>
-              {% if user.is_authenticated %}
-                 <li>
-                   <form class="logout-link" action="{% url 'accounts:logout' %}" method="post" >
-                     {% csrf_token %}
-                     <button type="submit" class="logout"
-                       style="position: absolute;
-                       top: 50px;
-                       right: 500px;"
-                       >Logout</button>
-                   </form>
-                 </li>
-
-              {% else %}
                 <li>
-                  <a class="home" href="{% url 'articles:list'%}"
+                  <a class="home" href="{% url 'exam:exam_start'%}"
                   style="position: absolute;
                   top: 50px;
                   right: 650px;
@@ -36,25 +22,8 @@
                   padding: 10px;
                   border-radius: 10px;
                   color: black;
-                  font-size: 15px"
-                  >Home</a>
+                  font-size: 15px">Click here to start</a>
                 </li>
-                  <li>
-                    <a class="login" href="{% url 'accounts:login'%}"
-                    style="position: absolute;
-                    top: 50px;
-                    right: 580px;"
-                    >Login</a>
-                  </li>
-                  <li>
-                    <a class="signup" href="{% url 'accounts:signup'%}"
-                    style="position: absolute;
-                    top: 50px;
-                    right: 500px;"
-                    >Signup</a>
-                  </li>
-              {% endif%}
-            </ul>
           </nav>
       </h1>
       {% block content %}

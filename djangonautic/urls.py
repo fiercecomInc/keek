@@ -7,7 +7,6 @@ from article import views as article_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('accounts.urls')),
     url(r'^article/',include('article.urls')),
     url(r'^exam/',include('exam.urls')),
     url(r'^$',article_views.article_list, name="home"),
